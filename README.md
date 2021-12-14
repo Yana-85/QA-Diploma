@@ -15,8 +15,8 @@
 
 ## ***Документация***
 - [План автоматизации тестирования](https://github.com/Yana-85/QA-Diploma/blob/master/documentation/Plan.md)
-- Отчет по итогам тестирования
-- Отчет по итогам автоматизации
+- [Отчет по итогам тестирования](https://github.com/Yana-85/QA-Diploma/blob/master/documentation/Report.md)
+- [Отчет по итогам автоматизации](https://github.com/Yana-85/QA-Diploma/blob/master/documentation/Summary.md)
 
 ## ***Перед началом работы***
 ***1.*** Необходимо склонировать [репозиторий](https://github.com/Yana-85/QA-Diploma) с помощью команды `git clone` или воспользоваться VCS Git, встроенной в IntelliJ IDEA.

@@ -1,15 +1,10 @@
 package ru.netology.web.data;
 
-import com.github.javafaker.Faker;
 import lombok.Value;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-
 public class DataHelper {
-    private DataHelper() {
-    }
+
+    public static DataGenerator dataGenerator = new DataGenerator();
 
     @Value
     public static class CardInfo {
@@ -20,297 +15,137 @@ public class DataHelper {
         String cvc;
     }
 
-    //  TEST DATA
-
-    //  Card Number
-
-    public static String getApprovedCardNumber() {
-        return "4444 4444 4444 4441";
-    }
-
-    public static String getDeclinedCardNumber() {
-        return "4444 4444 4444 4442";
-    }
-
-    public static String getEmptyCardNumberField() {
-        return "";
-    }
-
-    public static String getIncorrectCardNumberWithOneDigit() {
-        return "4";
-    }
-
-    public static String getIncorrectCardNumberWithFifteenDigits() {
-        return "4444 4444 4444 444";
-    }
-
-    public static String getInvalidCardNumber() {
-        return "0000 0000 0000 0000";
-    }
-
-    public static String getAnotherBankFieldCardNumber() {
-        return "4444 4444 4444 4443";
-    }
-
-    //  Month
-
-    public static String getValidMonth() {
-        return LocalDate.now().plusMonths(1).format(DateTimeFormatter.ofPattern("MM"));
-    }
-
-    public static String getLastMonth() {
-        return LocalDate.now().minusMonths(1).format(DateTimeFormatter.ofPattern("MM"));
-    }
-
-    public static String getInvalidMonth() {
-        return "13";
-    }
-
-    public static String getInvalidMonthIfFieldZeros() {
-        return "00";
-    }
-
-    public static String getIncorrectMonthWithOneDigit() {
-        return "1";
-    }
-
-    public static String getEmptyMonthField() {
-        return "";
-    }
-
-    //  Year
-
-    public static String getValidYear() {
-        return LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("yy"));
-    }
-
-    public static String getExpiredYear() {
-        return LocalDate.now().minusYears(1).format(DateTimeFormatter.ofPattern("yy"));
-    }
-
-    public static String getCurrentYear() {
-        return LocalDate.now().format(DateTimeFormatter.ofPattern("yy"));
-    }
-
-    public static String getInvalidYear() {
-        return LocalDate.now().plusYears(6).format(DateTimeFormatter.ofPattern("yy"));
-    }
-
-    public static String getInvalidYearIfFieldZeros() {
-        return "00";
-    }
-
-    public static String getIncorrectYearWithOneDigit() {
-        return "0";
-    }
-
-    public static String getEmptyYearField() {
-        return "";
-    }
-
-    //  Owner
-
-    public static String getValidOwner() {
-        Faker faker = new Faker(new Locale("en"));
-        return faker.name().firstName() + " " + faker.name().lastName();
-    }
-
-    public static String getInvalidOwnerFieldOnCyrillic() {
-        Faker faker = new Faker(new Locale("ru"));
-        return faker.name().firstName() + " " + faker.name().lastName();
-    }
-
-    public static String getInvalidOwnerFieldWithOneWord() {
-        Faker faker = new Faker(new Locale("en"));
-        return faker.name().firstName();
-    }
-
-    public static String getInvalidOwnerFieldWithThreeWords() {
-        return "Ivanov Ivan Ivanovich";
-    }
-
-    public static String getInvalidOwnerFieldWithLowerCase() {
-        return "ivan ivanov";
-    }
-
-    public static String getInvalidOwnerFieldWithUpperCase() {
-        return "IVAN IVANOV";
-    }
-
-    public static String getInvalidOwnerFieldWithOneLetter() {
-        return "A";
-    }
-
-    public static String getInvalidOwnerFieldWithLotsNumberOfLetters() {
-        return "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-    }
-
-    public static String getInvalidOwnerFieldWithDigits() {
-        return "12345";
-    }
-
-    public static String getInvalidOwnerFieldWithSymbols() {
-        return "!@#$%^&?*";
-    }
-
-    public static String getEmptyOwnerField() {
-        return "";
-    }
-
-    //  CVC/CVV
-
-    private static String getValidCVC() {
-        Faker faker = new Faker();
-        return faker.numerify("###");
-    }
-
-    public static String getInvalidCVC() {
-        return "000";
-    }
-
-    public static String getIncorrectCVCWithTwoDigits() {
-        return "12";
-    }
-
-    public static String getIncorrectCVCWithOneDigit() {
-        return "1";
-    }
-
-    public static String getEmptyFieldCVC() {
-        return "";
-    }
-
-    //  Testing the Card Number
+    //   Testing the Card Number
 
     public static CardInfo getValidApprovedCardData() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getValidDeclinedCardData() {
-        return new CardInfo(getDeclinedCardNumber(), getValidMonth(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getDeclinedCardNumber(), DataGenerator.getShiftedMonthFromNow(2), DataGenerator.getShiftedYearFromNow(2), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getCardNumberFieldEmpty() {
-        return new CardInfo(getEmptyCardNumberField(), getValidMonth(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getEmptyCardNumberField(), DataGenerator.getShiftedMonthFromNow(3), DataGenerator.getShiftedYearFromNow(3), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidCardNumberWithOneDigit() {
-        return new CardInfo(getIncorrectCardNumberWithOneDigit(), getValidMonth(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getIncorrectCardNumberWithOneDigit(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidCardNumberWithFifteenDigits() {
-        return new CardInfo(getIncorrectCardNumberWithFifteenDigits(), getValidMonth(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getIncorrectCardNumberWithFifteenDigits(), DataGenerator.getShiftedMonthFromNow(2), DataGenerator.getShiftedYearFromNow(2), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidCardNumberIfFieldAllZeros() {
-        return new CardInfo(getInvalidCardNumber(), getValidMonth(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getInvalidCardNumber(), DataGenerator.getShiftedMonthFromNow(3), DataGenerator.getShiftedYearFromNow(3), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getAnotherBankCardNumber() {
-        return new CardInfo(getAnotherBankFieldCardNumber(), getValidMonth(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getAnotherBankFieldCardNumber(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     //  Testing a Month
 
     public static CardInfo getFieldMonthEmpty() {
-        return new CardInfo(getApprovedCardNumber(), getEmptyMonthField(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getEmptyMonthField(), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidMonthWithZeros() {
-        return new CardInfo(getApprovedCardNumber(), getInvalidMonthIfFieldZeros(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getInvalidMonthIfFieldZeros(), DataGenerator.getShiftedYearFromNow(2), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidMonthWithIrrelevantValue() {
-        return new CardInfo(getApprovedCardNumber(), getInvalidMonth(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getInvalidMonth(), DataGenerator.getShiftedYearFromNow(3), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidMonthIsCurrentYear() {
-        return new CardInfo(getApprovedCardNumber(), getLastMonth(), getCurrentYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(-1), DataGenerator.getShiftedYearFromNow(0), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidMonthWithOneDigit() {
-        return new CardInfo(getApprovedCardNumber(), getIncorrectMonthWithOneDigit(), getValidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getIncorrectMonthWithOneDigit(), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     //  Testing Year
 
     public static CardInfo getFieldYearEmpty() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getEmptyYearField(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getEmptyYearField(), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidYearWithOneDigit() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getIncorrectYearWithOneDigit(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(2), DataGenerator.getIncorrectYearWithOneDigit(), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidYearWithZeros() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getInvalidYearIfFieldZeros(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(3), DataGenerator.getInvalidYearIfFieldZeros(), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getCardWithExpiredYear() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getExpiredYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getShiftedYearFromNow(-1), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidYearExceedingCardExpirationDate() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getInvalidYear(), getValidOwner(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getShiftedYearFromNow(6), DataGenerator.getValidOwner(), DataGenerator.getValidCVC());
     }
 
     //  Testing the Owner
 
     public static CardInfo getOwnerFieldEmpty() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getEmptyOwnerField(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(3), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getEmptyOwnerField(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidOwnerWithOneLetter() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getInvalidOwnerFieldWithOneLetter(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(2), DataGenerator.getShiftedYearFromNow(2), DataGenerator.getInvalidOwnerFieldWithOneLetter(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidOwnerWithOneWord() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getInvalidOwnerFieldWithOneWord(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getShiftedYearFromNow(3), DataGenerator.getInvalidOwnerFieldWithOneWord(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidOwnerWithThreeWords() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getInvalidOwnerFieldWithThreeWords(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(3), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getInvalidOwnerFieldWithThreeWords(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidOwnerWithLotsNumberOfLetters() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getInvalidOwnerFieldWithLotsNumberOfLetters(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(2), DataGenerator.getShiftedYearFromNow(2), DataGenerator.getInvalidOwnerFieldWithLotsNumberOfLetters(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidOwnerWithLowerCase() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getInvalidOwnerFieldWithLowerCase(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getShiftedYearFromNow(3), DataGenerator.getInvalidOwnerFieldWithLowerCase(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidOwnerWithUpperCase() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getInvalidOwnerFieldWithUpperCase(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(3), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getInvalidOwnerFieldWithUpperCase(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidOwnerWithCyrillic() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getInvalidOwnerFieldOnCyrillic(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(2), DataGenerator.getShiftedYearFromNow(2), DataGenerator.getInvalidOwnerFieldOnCyrillic(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidOwnerWithDigits() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getInvalidOwnerFieldWithDigits(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getShiftedYearFromNow(3), DataGenerator.getInvalidOwnerFieldWithDigits(), DataGenerator.getValidCVC());
     }
 
     public static CardInfo getInvalidOwnerWithSymbols() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getInvalidOwnerFieldWithSymbols(), getValidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(2), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getInvalidOwnerFieldWithSymbols(), DataGenerator.getValidCVC());
     }
 
     //  Testing CVC/CVV
 
     public static CardInfo getEmptyCVCField() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getValidOwner(), getEmptyFieldCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(3), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getValidOwner(), DataGenerator.getEmptyFieldCVC());
     }
 
     public static CardInfo getInvalidCVCWithOneDigit() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getValidOwner(), getIncorrectCVCWithOneDigit());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(2), DataGenerator.getShiftedYearFromNow(2), DataGenerator.getValidOwner(), DataGenerator.getIncorrectCVCWithOneDigit());
     }
 
     public static CardInfo getInvalidCVCWithTwoDigits() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getValidOwner(), getIncorrectCVCWithTwoDigits());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(1), DataGenerator.getShiftedYearFromNow(3), DataGenerator.getValidOwner(), DataGenerator.getIncorrectCVCWithTwoDigits());
     }
 
     public static CardInfo getInvalidCVCWithZeros() {
-        return new CardInfo(getApprovedCardNumber(), getValidMonth(), getValidYear(), getValidOwner(), getInvalidCVC());
+        return new CardInfo(DataGenerator.getApprovedCardNumber(), DataGenerator.getShiftedMonthFromNow(2), DataGenerator.getShiftedYearFromNow(1), DataGenerator.getValidOwner(), DataGenerator.getInvalidCVC());
     }
 }

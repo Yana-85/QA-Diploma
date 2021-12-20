@@ -31,7 +31,7 @@ public class DebitCardPaymentTest {
 
     @BeforeEach
     public void setUp() {
-        mainPage = open("http://localhost:8080", MainPage.class);
+        mainPage = open(System.getProperty("sut.url"), MainPage.class);
     }
 
     // POSITIVE SCENARIOS

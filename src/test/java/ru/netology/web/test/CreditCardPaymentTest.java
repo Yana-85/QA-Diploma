@@ -19,19 +19,19 @@ public class CreditCardPaymentTest {
     MainPage mainPage;
 
     @BeforeAll
-    static void setUpAll() {
+    public static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
     @AfterAll
-    static void tearDownAll() {
+    public static void tearDownAll() {
         SelenideLogger.removeListener("allure");
         SqlHelper.cleanDb();
     }
 
     @BeforeEach
     public void setUp() {
-        mainPage = open("http://localhost:8080", MainPage.class);
+        mainPage = open(System.getProperty("sut.url"), MainPage.class);
     }
 
     // POSITIVE SCENARIOS
@@ -93,7 +93,7 @@ public class CreditCardPaymentTest {
     }
 
     @Test
-    public void shouldNotDoPaymentByCreditCardWhenCardNumberFieldEmpty () {
+    public void shouldNotDoPaymentByCreditCardWhenCardNumberFieldEmpty() {
         val paymentPage = mainPage.getPaymentByCreditCard();
         val info = DataHelper.getCardNumberFieldEmpty();
         paymentPage.fillPaymentFormat(info);
